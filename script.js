@@ -36,4 +36,30 @@ function turn(squareId, player){
     origBoard[squareId]=player;
 
     document.getElementById(squareId).innerText = player;
+    let gameWon = checkWin(origBoard);
+    if(gameWon)gameOver(gameWon)
+}
+
+function checkWin(board,player){  // huplayer '0' aiplayer 'X'
+    //[0,1,'0','0',4,'0','X',7,8]
+    let plays = board.reduce.((a,e,i)=>(e===player)?a.concat(i):a,[]);
+    let gameWon=null;
+    for(let [index,win] of winCombos.entries()){
+        if(win.every(elem=>plays.indexOf(elem)>-1)){
+            //game won
+            gameWon={index:index,player:player};
+            break;
+        }
+    }
+    return gameWon;
+}
+
+function gameOver(gameWon){
+    for(let index of winCombos[gameWon.index]){
+        document.getElementById(index).style.backgroundColor=
+        gameWon.player==huPlayer? "Green" : "red";
+    }
+    for(var i=0;i<cells.length;i++){
+        cells[i].removeEventListener("click", turnClick, false);
+    }
 }
