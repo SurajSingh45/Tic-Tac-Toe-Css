@@ -46,10 +46,12 @@ function checkWin(board, player) {
   // [0,1,'0','0',4,'0','X',7,8]
   let plays = board.reduce((a, e, i) => (e === player ? a.concat(i) : a), []);
   let gameWon = null;
+  //now check in the winCombos arrays if the plays indexes cover fully any of the winning combo
   for (let [index, win] of winCombos.entries()) {
     if (win.every((elem) => plays.indexOf(elem) > -1)) {
       //game won
       gameWon = { index: index, player: player };
+      //returning index of winning combo and the player who has won the game
       break;
     }
   }
